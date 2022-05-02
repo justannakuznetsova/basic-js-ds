@@ -17,10 +17,6 @@ class Node {
 
 class BinarySearchTree {
 
-  // constructor(){
-  //   this.root = null;
-  // }
-
   root() {
     return this.root = null;
   }
@@ -96,16 +92,6 @@ class BinarySearchTree {
           node = node.left;
           return node;
         }
-
-        let minFromRight = node.right;
-        while(minFromRight.left) {
-          minFromRight = minFromRight.left;
-        }
-        node.data = minFromRight.data;
-
-        node.right = removeNode(node.right, minFromRight.data);
-
-        return node;
       }
     }
   }
