@@ -13,7 +13,8 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 
-/* Definition. An array is a data structure
+/* Difference:
+An array is a data structure
 consisting of a collection of elements each identified by the array index.
 In contrast, a stack is an abstract data type that serves as a collection
 of elements with two principal operations: push and pop. Thus, this is the
