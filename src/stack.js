@@ -12,20 +12,29 @@ const { NotImplementedError } = require('../extensions/index.js');
  * stack.pop(); // undefined
  *
  */
+
+/* Definition. An array is a data structure
+consisting of a collection of elements each identified by the array index.
+In contrast, a stack is an abstract data type that serves as a collection
+of elements with two principal operations: push and pop. Thus, this is the
+main difference between Array and Stack.
+*/
+
 class Stack {
-  push(/* element */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.stack = [];
+  }
+  push(element) {
+    this.stack.push(element);
   }
 
   pop() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.stack.pop();
   }
 
+  // returns the last element
   peek() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.stack[this.stack.length - 1];
   }
 }
 
