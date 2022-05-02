@@ -1,125 +1,167 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-//const { Node } = require('../extensions/list-tree.js');
+const { Node } = require('../extensions/list-tree.js');
 
 /**
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
-
-class Node {
-  constructor(data) {
-      this.data = data; // node value
-      this.left = null;   // left node child reference
-      this.right = null; // right node child reference
-  }
-}
-
 class BinarySearchTree {
+  constructor(data) {
+    this.tree = null;
+    this.right = null;
+    this.left = null;
+  }
 
   root() {
-    return this.root = null;
+    return this.tree;
   }
 
   add(data) {
-    let newNode = new Node(data);
-    if (!this.root) {
-      this.root = newNode;
-    } else {
-      this.addNode(this.root, newNode)
-    }
-  }
-
-  addNode(node, newNode) {
-    if (newNode.data < node.data) {
-      if (node.left === null) {
-        node.left = newNode;
-      } else {
-        this.addNode(node.left, newNode);
-      } 
-    } else {
-        if (node.right === null) {
-          node.right = newNode;
+    const nextNode = {
+      data, right: null, left: null, parent: null,
+    };
+    let now = this.tree;
+// It is an infinite loop which will run till a break statement is issued explicitly.
+//  Interestingly not while(1) but any integer which is non-zero will give a similar effect as while(1). Therefore, while(1), while(2) or while(-255), all will give infinite loop only.      
+    while (7) {
+      if (!now) {
+        this.tree = nextNode;
+        return 0;
+      }
+      if (data === now.data) return 0;
+      if (data > now.data) {
+        if (now.right) {
+          now = now.right;
         } else {
-          this.addNode(node.right, newNode);
+          now.right = nextNode;
+          nextNode.parent = now;
+          return;
+        }
+      }
+      if (data < now.data) {
+        if (now.left) {
+          now = now.left;
+        } else {
+          now.left = nextNode;
+          nextNode.parent = now;
+          return;
         }
       }
     }
+  }
 
   has(data) {
-    return this.find(data) !== null;
+    return !!this.find(data);
   }
 
   find(data) {
-    return findNode(this.root, data);
+    let current = this.tree;
 
-    function findNode(node, data) {
-      if (node === null) {
-        return null;
-      } if (data < node.data) {
-        return this.findNode(node.left, data);
-      } if (data > node.data) {
-        return this.findNode(node.right, data);
-      } return node;
+    while (1) {
+      if (data === current.data) {
+        return current;
+      }
+      if (data > current.data) {
+        if (current.right) {
+          current = current.right;
+        } else {
+          return null;
+        }
+      }
+      if (data < current.data) {
+        if (current.left) {
+          current = current.left;
+        } else {
+          return null;
+        }
+      }
     }
   }
 
   remove(data) {
-    this.root = removeNode(this.root, data);
+    const now = this.find(data);
 
-    function removeNode(node, data) {
-      if(node === null) {
-        return null;
+    if (now) {
+      if (!now.left && !now.right) {
+        if (now.data > now.parent.data) {
+          now.parent.right = null;
+        } else {
+          now.parent.left = null;
+        }
+        return;
       }
 
-      if (data < node.data) {
-        node.left = removeNode(node.left, data);
-        return node;
-      } else if (node.data > data) {
-        node.right = removeNode(node.right, data);
-        return node;
-      } else {
-        if (node.left === null && node.right === null) {
-          return null;
+      if (!now.left) {
+        if (now.data > now.parent.data) {
+          now.parent.right = now.right;
+          now.right.parent = now.parent;
+        } else {
+          now.parent.left = now.right;
+          now.right.parent = now.parent;
+        }
+        return;
+      }
+
+      if (!now.right) {
+        if (now.data > now.parent.data) {
+          now.parent.right = now.left;
+          now.left.parent = now.parent;
+        } else {
+          now.parent.left = now.left;
+          now.left.parent = now.parent;
+        }
+        return;
+      }
+
+      if (now.right && now.left) {
+        let max = now.left;
+
+        while (1) {
+          if (max.right) {
+            max = max.right;
+          } else {
+            break;
+          }
         }
 
-        if (node.left === null) {
-          node = node.right;
-          return node;
-        }
+        now.data = max.data;
 
-        if (node.right === null) {
-          node = node.left;
-          return node;
+        if (max.data > max.parent.data) {
+          max.parent.right = null;
+        } else {
+          max.parent.left = null;
         }
       }
     }
   }
 
   min() {
-    if(!this.root) {
-      return null;
-    }
+    let current = this.tree;
 
-    let node = this.root;
-    while (node.left) {
-      node = node.left;
-    }
+    if (!current) return null;
 
-    return node.data;
+    while (1) {
+      if (current.left) {
+        current = current.left;
+      } else {
+        return current.data;
+      }
+    }
   }
 
   max() {
-    if(!this.root) {
-      return null;
-    }
+    let current = this.tree;
 
-    let node = this.root;
-    while (node.right) {
-      node = node.right;
-    }
+    if (!current) return null;
 
-    return node.data;
+    while (1) {
+      if (current.right) {
+        current = current.right;
+      } else {
+        return current.data;
+      }
+    }
   }
 }
 
