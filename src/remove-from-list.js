@@ -21,10 +21,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  *     this.next = null;
  *   }
  * }
+ * 
+ * The Linked List could have data spread in 4 ways;
+      There are more than two nodes(items) in the list.
+      There are only two nodes(items) in the list.
+      There is only one node(item) in the list.
+      There are no nodes(items) in the list.
  */
-function removeKFromList(/* l, k */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function removeKFromList(l, k) {
+  return removeK(l, k);
+
+  function removeK(nodes, k) {
+    if (!nodes.next) {
+      return nodes;
+    }
+
+    if (nodes.value === k) {
+      nodes = removeK(nodes.next, k);
+    }
+
+    if (nodes.next.value !== k) {
+      nodes.next = removeK(nodes.next, k);
+    }
+
+    else {
+      let arrayWithoutK = nodes.next;
+      while (arrayWithoutK && arrayWithoutK.value === k) {
+        arrayWithoutK = arrayWithoutK.next;
+      }
+      if (!arrayWithoutK || arrayWithoutK.value === k) {
+        nodes.next = null;
+      } else nodes.next = removeK(arrayWithoutK, k);
+    }
+    return nodes;
+  }
 }
 
 module.exports = {
